@@ -1,0 +1,1 @@
+ardu_id,ardu_name,ardu_location,ardu_temp_rate,ardu_press_rate,ardu_light_rate,ardu_rain_rate,ardu_hum_rate,rasp_id,ardu_status
