@@ -2,12 +2,17 @@
 import pika
 import sys
 import serial
-
+import time
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
         host='localhost'))
 channel = connection.channel()
 
+global ser
+ser = serial.Serial('COM30', 9600)
+
+global shouldRead
+shouldRead = False
 channel.exchange_declare(exchange='topic_logs',
                          type='topic')
 
@@ -27,17 +32,46 @@ for binding_key in binding_keys:
 print ' [*] Waiting for logs. To exit press CTRL+C'
 
 def callback(ch, method, properties, body):
-    ser = serial.Serial('COM30', 9600)
     print " [x] %r:%r" % (method.routing_key, body,)
-    ser.write(body)
+    if (body=='1'):
+      ser.write('1')
+    elif (body=='0'):
+      ser.write('0')
     #message = ser.readline()
     #print ('from ')
-    #print(message)
-    
-    print (body)
+    #print(message)    
+    shouldRead = True
+    print (shouldRead)
+    while shouldRead:
+      print("inside while")
+      try:
+        message = ser.readline()
+      except KeyboardInterrupt :
+        ser.close()
+        break 
+      print(message)
+      connection = pika.BlockingConnection(pika.ConnectionParameters(
+              host='localhost'))
+      channel = connection.channel()
+
+      channel.exchange_declare(exchange='topic_logs',
+                               type='topic')
+
+      routing_key = "Control.AAIT.AI"
+      #routing_key = sys.argv[1] if len(sys.argv) > 1 else 'anonymous.info'
+      channel.basic_publish(exchange='topic_logs',
+                            routing_key=routing_key,
+                            body=message)
+      print " [x] Sent %r:%r" % (routing_key, message)
+      shouldRead = False
+
 
 channel.basic_consume(callback,
                       queue=queue_name,
                       no_ack=True)
 
 channel.start_consuming()
+
+
+
+    # connection.close()
