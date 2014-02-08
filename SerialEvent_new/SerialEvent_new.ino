@@ -1,7 +1,7 @@
 //digital OUTPUT pins (7, 8 and 9)
   int digTemp = 7;  
   int digLight = 8;   
-  int digPresure = 13;
+  int digPresure = 9;
 //digital OUTPUT pin state
   int digTemp_state = LOW;  
   int digLight_state = LOW;   
@@ -321,16 +321,16 @@ void readSensorValue ()
          //read the sensor value of light
          lightValue = analogRead(anaLight);
          // normalize data if it falls outside the bounds of 210, and 1000 to the max and min value respectively
-         if (lightValue <210)
+         if (lightValue <100)
          {
-           lightValue = 210;
+           lightValue = 100;
          }
-         else if (lightValue <210)
+         else if (lightValue >1000)
          {
            lightValue = 1000;
          }
          // remap the read value into a percentage scale then send them
-         lightValue = map (lightValue, 210, 1000, 0 ,100);
+         lightValue = map (lightValue, 100, 1000, 0 ,100);
          Serial.print("Light=");
          Serial.print(lightValue);
          // check to see if any other data is to be read inorder to see if selimitors is nescessary
@@ -344,7 +344,7 @@ void readSensorValue ()
     {
          //read the value of the pressure then check how much it is by using the relation 200kpa = 1023 
          presureValue = analogRead(anaPresure);
-         presureValue = presureValue* (200.0 / 1023.0);
+         presureValue = presureValue * (200.0 / 1023.0);
          Serial.print("Presure=");
          Serial.print(presureValue);
     }

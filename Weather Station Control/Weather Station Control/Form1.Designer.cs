@@ -79,9 +79,9 @@
             this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label1.Location = new System.Drawing.Point(278, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(165, 25);
+            this.label1.Size = new System.Drawing.Size(227, 25);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Control Center";
+            this.label1.Text = "Control Center V 1.0";
             // 
             // label2
             // 
@@ -248,7 +248,7 @@
             this.Controls.Add(this.change_state_btn);
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Control Center";
+            this.Text = "Realtime Weather Station";
             this.ResumeLayout(false);
             this.PerformLayout();
 

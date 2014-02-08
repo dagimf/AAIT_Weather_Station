@@ -58,20 +58,20 @@ namespace Weather_Station_Control
                     string[] records = ms.Split('=');
                     if (records[0].Contains("Temp"))                    
                     {
-                        tempValue = records[1];
+                        tempValue = records[1] + " Celcius";
                     }
                     else if (records[0].Contains("Light"))
                     {
-                        lightValue = records[1];
+                        lightValue = records[1] + " %";
                     }
                     else if (records[0].Contains("Presure"))
                     {
-                        pressureValue = records[1];
+                        pressureValue = records[1] + " KPa";
                     }
                 }
                 SetTemp(tempValue);
-                SetLight(lightValue);
-                SetPressure(pressureValue);
+                SetLight(lightValue );
+                SetPressure(pressureValue );
             }
             output += e.newValue;
             
