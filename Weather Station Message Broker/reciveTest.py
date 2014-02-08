@@ -33,23 +33,20 @@ print ' [*] Waiting for logs. To exit press CTRL+C'
 
 def callback(ch, method, properties, body):
     print " [x] %r:%r" % (method.routing_key, body,)
-    if (body=='1'):
-      ser.write('1')
-    elif (body=='0'):
-      ser.write('0')
-    #message = ser.readline()
-    #print ('from ')
-    #print(message)    
+    #if (body=='1'):
+     # ser.write('1')
+    #elif (body=='0'):
+    ser.write(body+'\n')
+      #message = ser.readline()
+      #print ('from ')
+        
     shouldRead = True
-    print (shouldRead)
     while shouldRead:
-      print("inside while")
       try:
         message = ser.readline()
       except KeyboardInterrupt :
         ser.close()
         break 
-      print(message)
       connection = pika.BlockingConnection(pika.ConnectionParameters(
               host='localhost'))
       channel = connection.channel()

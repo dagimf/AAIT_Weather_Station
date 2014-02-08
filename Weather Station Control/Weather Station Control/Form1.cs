@@ -15,20 +15,25 @@ namespace Weather_Station_Control
 {
     public partial class Form1 : Form
     {
-
+        RabbitMQMessage msg = new RabbitMQMessage();
         RabbitConnection messageBroker = new RabbitConnection();
         Thread receiveThread;
+        string output;
         public Form1()
         {
             InitializeComponent();
             receiveThread = new Thread(new ThreadStart(receiveMessage));
             receiveThread.Start();
+            msg.MessageChanged+=msg_MessageChanged;
+        }
+
+        private void msg_MessageChanged(object sender, MessageChangedEventArgs e)
+        {
+            output += e.newValue;
         }
 
         private void receiveMessage()
         {
-            string output;
-            output.
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             {
@@ -57,15 +62,16 @@ namespace Weather_Station_Control
                         var routingKey = ea.RoutingKey;
                         Console.WriteLine(" [x] Received '{0}':'{1}'",
                                           routingKey, message);
-                        output = routingKey + ":" + message;
+                        msg.Message = routingKey + ":" + message;
                     }
                 }
             }
         }
+        
 
         private void clear_btn_Click(object sender, EventArgs e)
         {
-
+            data_display.Text = "";
         }
 
         private void send_btn_Click(object sender, EventArgs e)
@@ -74,6 +80,35 @@ namespace Weather_Station_Control
             {
                 messageBroker.sendData("1", "Device.AAIT.4K");
             }
+
+            else if (cmd_recv_data.Checked) 
+            {
+                messageBroker.sendData("5", "Device.AAIT.4K");
+            }
+        }
+
+        private void updateData_Click(object sender, EventArgs e)
+        {
+            data_display.Text = output;
+        }
+
+        private void change_state_btn_Click(object sender, EventArgs e)
+        {
+            int state = 0;
+            if (temprature_CB.Checked) 
+            {
+                state += 4 ;
+            }
+            if (light_CB.Checked)
+            {
+                state += 2;
+            }
+            if (pressure_CB.Checked)
+            {
+                state += 1;
+            }
+            messageBroker.sendData("2"+state , "Device.AAIT.4K");
+           
         }
     }
 }

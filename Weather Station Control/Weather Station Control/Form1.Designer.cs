@@ -28,25 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.change_state_btn = new System.Windows.Forms.Button();
             this.send_btn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.clear_btn = new System.Windows.Forms.Button();
             this.cmd_dev_status = new System.Windows.Forms.CheckBox();
             this.cmd_recv_data = new System.Windows.Forms.CheckBox();
+            this.data_display = new System.Windows.Forms.TextBox();
+            this.updateData = new System.Windows.Forms.Button();
+            this.light_CB = new System.Windows.Forms.CheckBox();
+            this.pressure_CB = new System.Windows.Forms.CheckBox();
+            this.temprature_CB = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // button1
+            // change_state_btn
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(575, 98);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(93, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Receive Data";
-            this.button1.UseVisualStyleBackColor = true;
+            this.change_state_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.change_state_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.change_state_btn.Location = new System.Drawing.Point(16, 305);
+            this.change_state_btn.Name = "change_state_btn";
+            this.change_state_btn.Size = new System.Drawing.Size(136, 27);
+            this.change_state_btn.TabIndex = 0;
+            this.change_state_btn.Text = "Change State";
+            this.change_state_btn.UseVisualStyleBackColor = true;
+            this.change_state_btn.Click += new System.EventHandler(this.change_state_btn_Click);
             // 
             // send_btn
             // 
@@ -70,10 +76,6 @@
             this.label1.Size = new System.Drawing.Size(165, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Control Center";
-            // 
-            // display_data
-            // 
-            
             // 
             // label2
             // 
@@ -116,19 +118,73 @@
             this.cmd_recv_data.Text = "Receive Sensor Data";
             this.cmd_recv_data.UseVisualStyleBackColor = true;
             // 
+            // data_display
+            // 
+            this.data_display.Location = new System.Drawing.Point(343, 133);
+            this.data_display.Multiline = true;
+            this.data_display.Name = "data_display";
+            this.data_display.ReadOnly = true;
+            this.data_display.Size = new System.Drawing.Size(416, 327);
+            this.data_display.TabIndex = 9;
+            // 
+            // updateData
+            // 
+            this.updateData.Location = new System.Drawing.Point(603, 98);
+            this.updateData.Name = "updateData";
+            this.updateData.Size = new System.Drawing.Size(75, 23);
+            this.updateData.TabIndex = 10;
+            this.updateData.Text = "Update Data";
+            this.updateData.UseVisualStyleBackColor = true;
+            this.updateData.Click += new System.EventHandler(this.updateData_Click);
+            // 
+            // light_CB
+            // 
+            this.light_CB.AutoSize = true;
+            this.light_CB.Location = new System.Drawing.Point(24, 282);
+            this.light_CB.Name = "light_CB";
+            this.light_CB.Size = new System.Drawing.Size(49, 17);
+            this.light_CB.TabIndex = 11;
+            this.light_CB.Text = "Light";
+            this.light_CB.UseVisualStyleBackColor = true;
+            // 
+            // pressure_CB
+            // 
+            this.pressure_CB.AutoSize = true;
+            this.pressure_CB.Location = new System.Drawing.Point(24, 250);
+            this.pressure_CB.Name = "pressure_CB";
+            this.pressure_CB.Size = new System.Drawing.Size(67, 17);
+            this.pressure_CB.TabIndex = 12;
+            this.pressure_CB.Text = "Pressure";
+            this.pressure_CB.UseVisualStyleBackColor = true;
+            // 
+            // temprature_CB
+            // 
+            this.temprature_CB.AutoSize = true;
+            this.temprature_CB.Location = new System.Drawing.Point(24, 218);
+            this.temprature_CB.Name = "temprature_CB";
+            this.temprature_CB.Size = new System.Drawing.Size(80, 17);
+            this.temprature_CB.TabIndex = 13;
+            this.temprature_CB.Text = "Temprature";
+            this.temprature_CB.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.temprature_CB);
+            this.Controls.Add(this.pressure_CB);
+            this.Controls.Add(this.light_CB);
+            this.Controls.Add(this.updateData);
+            this.Controls.Add(this.data_display);
             this.Controls.Add(this.cmd_recv_data);
             this.Controls.Add(this.cmd_dev_status);
             this.Controls.Add(this.clear_btn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.send_btn);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.change_state_btn);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Control Center";
@@ -139,13 +195,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button change_state_btn;
         private System.Windows.Forms.Button send_btn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button clear_btn;
         private System.Windows.Forms.CheckBox cmd_dev_status;
         private System.Windows.Forms.CheckBox cmd_recv_data;
+        private System.Windows.Forms.TextBox data_display;
+        private System.Windows.Forms.Button updateData;
+        private System.Windows.Forms.CheckBox light_CB;
+        private System.Windows.Forms.CheckBox pressure_CB;
+        private System.Windows.Forms.CheckBox temprature_CB;
     }
 }
 
