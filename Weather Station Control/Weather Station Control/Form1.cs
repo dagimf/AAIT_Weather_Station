@@ -18,20 +18,125 @@ namespace Weather_Station_Control
         RabbitMQMessage msg = new RabbitMQMessage();
         RabbitConnection messageBroker = new RabbitConnection();
         Thread receiveThread;
+        Thread automatedReceive;
         string output;
         public Form1()
         {
             InitializeComponent();
             receiveThread = new Thread(new ThreadStart(receiveMessage));
             receiveThread.Start();
+
+            automatedReceive = new Thread(new ThreadStart(readSensors));
+            automatedReceive.Start();
             msg.MessageChanged+=msg_MessageChanged;
+        }
+
+        private void readSensors()
+        {
+            while (true)
+            {
+                messageBroker.sendData("5", "Device.AAIT.4K");
+                Thread.Sleep(1000);
+
+            }
         }
 
         private void msg_MessageChanged(object sender, MessageChangedEventArgs e)
         {
+            string[] message = e.newValue.Split('|');
+            string[] parameters = message[0].Split(':');
+            string routingKey = parameters[0];
+            string cmd = parameters[1];
+            string tempValue = "";
+            string pressureValue = "";
+            string lightValue = "";
+            if (cmd.Contains('5')) 
+            {
+                string[] data = message[1].Split(':');
+                foreach (string ms in data)
+                {
+                    string[] records = ms.Split('=');
+                    if (records[0].Contains("Temp"))                    
+                    {
+                        tempValue = records[1];
+                    }
+                    else if (records[0].Contains("Light"))
+                    {
+                        lightValue = records[1];
+                    }
+                    else if (records[0].Contains("Presure"))
+                    {
+                        pressureValue = records[1];
+                    }
+                }
+                SetTemp(tempValue);
+                SetLight(lightValue);
+                SetPressure(pressureValue);
+            }
             output += e.newValue;
+            
+            SetText(output);
         }
 
+        delegate void SetTextCallback(string text);
+        delegate void SetTempCallback(string temp);
+        delegate void SetLightCallback(string light);
+        delegate void SetPressureCallback(string pressure);
+
+        private void SetTemp(string temp)
+        {
+            if (this.temp_tbx.InvokeRequired)
+            {
+                SetTempCallback d = new SetTempCallback(SetTemp);
+                this.Invoke(d, new object[] { temp });
+            }
+            else
+            {
+                this.temp_tbx.Text = temp;
+            }
+        }
+
+        private void SetLight(string light)
+        {
+            if (this.light_tbx.InvokeRequired)
+            {
+                SetLightCallback d = new SetLightCallback(SetLight);
+                this.Invoke(d, new object[] { light });
+            }
+            else
+            {
+                this.light_tbx.Text = light;
+            }
+        }
+
+        private void SetPressure(string pressure)
+        {
+            if (this.press_tbx.InvokeRequired)
+            {
+                SetPressureCallback d = new SetPressureCallback(SetPressure);
+                this.Invoke(d, new object[] { pressure });
+            }
+            else
+            {
+                this.press_tbx.Text = pressure;
+            }
+        }
+
+        private void SetText(string text)
+        {
+          // InvokeRequired required compares the thread ID of the
+          // calling thread to the thread ID of the creating thread.
+          // If these threads are different, it returns true.
+          if (this.data_display.InvokeRequired)
+          { 
+            SetTextCallback d = new SetTextCallback(SetText);
+            this.Invoke(d, new object[] { text });
+          }
+          else
+          {
+            this.data_display.Text = text;
+          }
+        }
         private void receiveMessage()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };

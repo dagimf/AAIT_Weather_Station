@@ -340,10 +340,11 @@ void readSensorValue ()
          }        
     }
     // if the pressure sensor is turned on then read the value and send it
-    if (digPresure_state = HIGH)
+    if (digPresure_state == HIGH)
     {
          //read the value of the pressure then check how much it is by using the relation 200kpa = 1023 
-         presureValue = analogRead(anaPresure)* (200.0 / 1023.0);
+         presureValue = analogRead(anaPresure);
+         presureValue = presureValue* (200.0 / 1023.0);
          Serial.print("Presure=");
          Serial.print(presureValue);
     }

@@ -40,6 +40,12 @@
             this.light_CB = new System.Windows.Forms.CheckBox();
             this.pressure_CB = new System.Windows.Forms.CheckBox();
             this.temprature_CB = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.temp_tbx = new System.Windows.Forms.TextBox();
+            this.light_tbx = new System.Windows.Forms.TextBox();
+            this.press_tbx = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // change_state_btn
@@ -120,11 +126,12 @@
             // 
             // data_display
             // 
-            this.data_display.Location = new System.Drawing.Point(343, 133);
+            this.data_display.Location = new System.Drawing.Point(522, 133);
             this.data_display.Multiline = true;
             this.data_display.Name = "data_display";
             this.data_display.ReadOnly = true;
-            this.data_display.Size = new System.Drawing.Size(416, 327);
+            this.data_display.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.data_display.Size = new System.Drawing.Size(237, 327);
             this.data_display.TabIndex = 9;
             // 
             // updateData
@@ -167,12 +174,66 @@
             this.temprature_CB.Text = "Temprature";
             this.temprature_CB.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(273, 146);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Current Temp:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(273, 180);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Current Light:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(273, 212);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(88, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "Current Pressure:";
+            // 
+            // temp_tbx
+            // 
+            this.temp_tbx.Location = new System.Drawing.Point(359, 146);
+            this.temp_tbx.Name = "temp_tbx";
+            this.temp_tbx.Size = new System.Drawing.Size(141, 20);
+            this.temp_tbx.TabIndex = 17;
+            // 
+            // light_tbx
+            // 
+            this.light_tbx.Location = new System.Drawing.Point(359, 176);
+            this.light_tbx.Name = "light_tbx";
+            this.light_tbx.Size = new System.Drawing.Size(141, 20);
+            this.light_tbx.TabIndex = 18;
+            // 
+            // press_tbx
+            // 
+            this.press_tbx.Location = new System.Drawing.Point(359, 208);
+            this.press_tbx.Name = "press_tbx";
+            this.press_tbx.Size = new System.Drawing.Size(141, 20);
+            this.press_tbx.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.press_tbx);
+            this.Controls.Add(this.light_tbx);
+            this.Controls.Add(this.temp_tbx);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.temprature_CB);
             this.Controls.Add(this.pressure_CB);
             this.Controls.Add(this.light_CB);
@@ -207,6 +268,12 @@
         private System.Windows.Forms.CheckBox light_CB;
         private System.Windows.Forms.CheckBox pressure_CB;
         private System.Windows.Forms.CheckBox temprature_CB;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox temp_tbx;
+        private System.Windows.Forms.TextBox light_tbx;
+        private System.Windows.Forms.TextBox press_tbx;
     }
 }
 
