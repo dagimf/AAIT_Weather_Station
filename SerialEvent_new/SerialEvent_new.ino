@@ -199,29 +199,29 @@ String checkState ()
   String sensorState;
   if(digTemp_state==HIGH)
   {
-    sensorState+='1';
+    sensorState+="ON";
   }
   else 
   {
-    sensorState+='0';  
+    sensorState+="OFF";  
   }
   sensorState+=':';
   if(digLight_state==HIGH)
   {
-    sensorState+='1';
+    sensorState+="ON";
   }
   else 
   {
-    sensorState+='0';  
+    sensorState+="OFF";  
   }
   sensorState+=':';
   if(digPresure_state==HIGH)
   {
-    sensorState+='1';
+    sensorState+="ON";
   }
   else 
   {
-    sensorState+='0';  
+    sensorState+="OFF";  
   }  
   return sensorState;
 }

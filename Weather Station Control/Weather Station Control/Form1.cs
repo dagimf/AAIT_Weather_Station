@@ -29,13 +29,15 @@ namespace Weather_Station_Control
             automatedReceive = new Thread(new ThreadStart(readSensors));
             automatedReceive.Start();
             msg.MessageChanged+=msg_MessageChanged;
+
+            messageBroker.sendData("1", "Device.Rasp1.Ardu1");
         }
 
         private void readSensors()
         {
             while (true)
             {
-                messageBroker.sendData("5", "Device.AAIT.4K");
+                messageBroker.sendData("5", "Device.Rasp1.Ardu1");
                 Thread.Sleep(1000);
 
             }
@@ -73,15 +75,66 @@ namespace Weather_Station_Control
                 SetLight(lightValue );
                 SetPressure(pressureValue );
             }
+            if (cmd.Contains('1')) 
+            {
+                string[] data = message[1].Split(':');
+                SetTempState(data[0]);
+                SetLightState(data[1]);
+                SetPressureState(data[2]);
+            }
             output += e.newValue;
             
             SetText(output);
         }
+        //For the state changes
+        delegate void SetTempStateCallback(string temp);
+        delegate void SetLightStateCallback(string light);
+        delegate void SetPressureStateCallback(string pressure);
 
+        //for reading value
         delegate void SetTextCallback(string text);
         delegate void SetTempCallback(string temp);
         delegate void SetLightCallback(string light);
         delegate void SetPressureCallback(string pressure);
+
+        private void SetTempState(string temp)
+        {
+            if (this.tempState_tb.InvokeRequired)
+            {
+                SetTempStateCallback d = new SetTempStateCallback(SetTempState);
+                this.Invoke(d, new object[] { temp });
+            }
+            else
+            {
+                this.tempState_tb.Text = temp;
+            }
+        }
+
+        private void SetLightState(string light)
+        {
+            if (this.lightState_tb.InvokeRequired)
+            {
+                SetLightStateCallback d = new SetLightStateCallback(SetLightState);
+                this.Invoke(d, new object[] { light });
+            }
+            else
+            {
+                this.lightState_tb.Text = light;
+            }
+        }
+
+        private void SetPressureState(string pressure)
+        {
+            if (this.pressureState_tb.InvokeRequired)
+            {
+                SetPressureStateCallback d = new SetPressureStateCallback(SetPressureState);
+                this.Invoke(d, new object[] { pressure });
+            }
+            else
+            {
+                this.pressureState_tb.Text = pressure;
+            }
+        }
 
         private void SetTemp(string temp)
         {
@@ -139,58 +192,44 @@ namespace Weather_Station_Control
         }
         private void receiveMessage()
         {
+            // Create a connection between the RabbitMQ service located at the given location
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
+                    //set the exchange name and type to listen to
                     channel.ExchangeDeclare("topic_logs", "topic");
+                    //create a temproary and random que to store the message recived from the exchane
                     var queueName = channel.QueueDeclare();
-
-                    //Commented out but should use when multiple binding is implemented
-                    //foreach (var bindingKey in args)
-                    //{
-                    //   channel.QueueBind(queueName, "topic_logs", bindingKey);
-                    //}
+                    // bind the exchange and routing key to the random que created
                     channel.QueueBind(queueName, "topic_logs", "Control.*.*");
                     Console.WriteLine(" [*] Waiting for messages. " +
                                       "To exit press CTRL+C");
-
+                    // create a consumer which can read the messages from the que
                     var consumer = new QueueingBasicConsumer(channel);
+                    //assign the consumer to the random que
                     channel.BasicConsume(queueName, true, consumer);
-
+                    // continuosly loop and recive message from the exchange
                     while (true)
                     {
+                        //created whenever a mmessage is recived
                         var ea = (BasicDeliverEventArgs)consumer.Queue.Dequeue();
+                        // retrieve the message that was sent
                         var body = ea.Body;
+                        // Decode the message
                         var message = Encoding.UTF8.GetString(body);
+                        //retrieve the routing key of the sender
                         var routingKey = ea.RoutingKey;
                         Console.WriteLine(" [x] Received '{0}':'{1}'",
                                           routingKey, message);
+                        //stor the recived data
                         msg.Message = routingKey + ":" + message;
                     }
                 }
             }
         }
-        
 
-        private void clear_btn_Click(object sender, EventArgs e)
-        {
-            data_display.Text = "";
-        }
-
-        private void send_btn_Click(object sender, EventArgs e)
-        {
-            if (cmd_dev_status.Checked) 
-            {
-                messageBroker.sendData("1", "Device.AAIT.4K");
-            }
-
-            else if (cmd_recv_data.Checked) 
-            {
-                messageBroker.sendData("5", "Device.AAIT.4K");
-            }
-        }
 
         private void updateData_Click(object sender, EventArgs e)
         {
@@ -200,20 +239,50 @@ namespace Weather_Station_Control
         private void change_state_btn_Click(object sender, EventArgs e)
         {
             int state = 0;
+            tempState_tb.Text = "OFF";
+            lightState_tb.Text = "OFF";
+            pressureState_tb.Text = "OFF";
             if (temprature_CB.Checked) 
             {
                 state += 4 ;
+                tempState_tb.Text = "ON";
             }
             if (light_CB.Checked)
             {
                 state += 2;
+                lightState_tb.Text = "ON";
             }
             if (pressure_CB.Checked)
             {
+                lightState_tb.Text = "ON";
                 state += 1;
             }
-            messageBroker.sendData("2"+state , "Device.AAIT.4K");
+            messageBroker.sendData("2"+state , "Device.Rasp1.Ardu1");
            
+        }
+
+
+        private void startSensorState_btn_Click(object sender, EventArgs e)
+        {
+
+            tempState_tb.Text = "ON";
+            lightState_tb.Text = "ON";
+            pressureState_tb.Text = "ON";
+            messageBroker.sendData("4", "Device.Rasp1.Ardu1");
+        }
+
+        private void stopSensor_btn_Click(object sender, EventArgs e)
+        {
+            tempState_tb.Text = "OFF";
+            lightState_tb.Text = "OFF";
+            pressureState_tb.Text = "OFF";
+            messageBroker.sendData("3", "Device.Rasp1.Ardu1");
+        }
+
+        private void clear_btn_Click(object sender, EventArgs e)
+        {
+            output = "";
+            data_display.Text = "";
         }
     }
 }

@@ -12,17 +12,16 @@ namespace Weather_Station_Control
     {
         public void sendData(string message, string routingTemp) 
         {
+            
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
+                    //The channel to send the message to and the type of message is set
                     channel.ExchangeDeclare("topic_logs", "topic");
-
+                    // Routing Key is Set
                     var routingKey = routingTemp;
-                    //var message = (args.Length > 1) ? string.Join(" ", args.Skip(1)
-                      //                                                                .ToArray())
-                      //                                             : "Hello World!";
                     var body = Encoding.UTF8.GetBytes(message);
                     channel.BasicPublish("topic_logs", routingKey, null, body);
                     Console.WriteLine(" [x] Sent '{0}':'{1}'", routingKey, message);
@@ -50,20 +49,22 @@ namespace Weather_Station_Control
         }
         public void sendData(string message, string routingTemp, string server, string exchange)
         {
+            //chose the ipaddress for the RabbitMq service
             var factory = new ConnectionFactory() { HostName = server };
+            //create a connection to the service
             using (var connection = factory.CreateConnection())
             {
+                //open a channel of communincation with the service
                 using (var channel = connection.CreateModel())
                 {
+                    //set the place of message exchange, and the type of exchange to topic                    
                     channel.ExchangeDeclare(exchange, "topic");
-
+                    //set the routing key for the message
                     var routingKey = routingTemp;
-                    //var message = (args.Length > 1) ? string.Join(" ", args.Skip(1)
-                    //                                                                .ToArray())
-                    //                                             : "Hello World!";
+                    // change the encoding of the message to make it safer to transfer
                     var body = Encoding.UTF8.GetBytes(message);
+                    //publish the message to the specified exchange with the specified routing key
                     channel.BasicPublish("topic_logs", routingKey, null, body);
-                    Console.WriteLine(" [x] Sent '{0}':'{1}'", routingKey, message);
                 }
             }
         }
