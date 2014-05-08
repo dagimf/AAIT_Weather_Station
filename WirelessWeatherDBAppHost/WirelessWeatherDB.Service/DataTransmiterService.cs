@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WirelessWeatherDB.DataModel.Operations;
 using WirelessWeatherDB.DataInterface;
+using WirelessWeatherDB.DataModel.Models;
 
 namespace WirelessWeatherDB.Service
 {
@@ -17,10 +18,10 @@ namespace WirelessWeatherDB.Service
             var Response = DataTransmiterRepository.AddTransmiter(Request);
             return Response;
         }
-        public TransmiterDeviceResponse Get(TransmiterDevice Request)
+        public DataTransmiter Get(TransmiterDevice Request)
         {
             var Response = DataTransmiterRepository.GetTransmiter(Request);
-            return Response;
+            return Response.Device;
         }
     }
 }

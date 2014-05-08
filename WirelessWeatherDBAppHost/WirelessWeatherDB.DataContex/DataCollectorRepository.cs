@@ -30,9 +30,9 @@ namespace WirelessWeatherDB.DataContex
             DataCollector.Status = Collector.Status;
 
 
-            using (IdbConnection = DbConnectionFactory.CreateDbConnection())
+            using (var dbCon = DbConnectionFactory.OpenDbConnection())
             {
-                IdbConnection.Insert<DataTransmiter>();
+                dbCon.Insert<DataCollector>(DataCollector);
             }
             return new DataCollectorDTOResponse { Id = DataCollector.Id };
         }
@@ -40,9 +40,9 @@ namespace WirelessWeatherDB.DataContex
         public CollectorDeviceResponse GetCollector(CollectorDevice CollectorDetail)
         {
             DataCollector Collector;
-            using (IdbConnection = DbConnectionFactory.CreateDbConnection())
+            using (var dbCon = DbConnectionFactory.OpenDbConnection())
             {
-                Collector = IdbConnection.QueryById<DataCollector>(CollectorDetail.Id);
+                Collector = dbCon.QueryById<DataCollector>(CollectorDetail.Id);
             }
             return new CollectorDeviceResponse { Device = Collector };
         }

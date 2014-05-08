@@ -56,12 +56,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WirelessWeatherDB.DataModel\WirelessWeatherDB.DataModel.csproj">
-      <Project>{d685ead7-d8e0-4070-a962-5a4207f70512}</Project>
-      <Name>WirelessWeatherDB.DataModel</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

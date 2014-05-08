@@ -21,7 +21,7 @@ namespace WirelessWeatherDB.DataModel.Operations
 
 
     [Api("retreive raspberry Pi")]
-    [Route("/GetTransmiter")]
+    [Route("/GetTransmiter/{Id}")]
     public class TransmiterDevice
     {
         public Guid Id { get; set; }

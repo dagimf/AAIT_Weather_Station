@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WirelessWeatherDB.DataConte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WirelessWeatherDB.DataModel", "WirelessWeatherDB.DataModel\WirelessWeatherDB.DataModel.csproj", "{D685EAD7-D8E0-4070-A962-5A4207F70512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "Consumer\Consumer.csproj", "{6ADC4337-2559-483F-9986-6A5230A4F518}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{D685EAD7-D8E0-4070-A962-5A4207F70512}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D685EAD7-D8E0-4070-A962-5A4207F70512}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D685EAD7-D8E0-4070-A962-5A4207F70512}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ADC4337-2559-483F-9986-6A5230A4F518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ADC4337-2559-483F-9986-6A5230A4F518}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ADC4337-2559-483F-9986-6A5230A4F518}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ADC4337-2559-483F-9986-6A5230A4F518}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherApp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE-edge">
+		<title>Weather Station</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<!-- build:css(.tmp) styles/main.css -->
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
+		<!-- endbuild -->
+
+	<style type="text/css">
+
+body{
+	background-color: #CCC;
+}
+.container{
+	background-color: white;
+	width: auto;
+	height: auto;
+	padding-left: 20px;
+	padding-right: 40px;
+	margin-left: 40px;
+	margin-right: 40px;
+	/*margin-top: 20px;
+	margin-bottom: 15px;*/
+}
+</style>
+</head>
+
+<body>
+	<!-- [if lt IE 10] 
+	<p class="browsehappy">You are using an <strong>Outdated</strong>browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your expreice</p>
+	[endif]-->
+
+
+<div class="container" ng-app="weatherApp">
+	<header ng-include="'templates/nav.html'"></header>	
+	<!-- <div ng-include="'templates/side_nav.html'"></div> -->
+	<div ui-view></div>
+
+	<hr />
+	<footer ng-include="'templates/footer.php'"></footer>
+	
+</div>
+
+
+	<!-- build:js scripts/vendor.js -->
+	<!-- browse:js -->
+	<script src="bower_components/jquery/jquery.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<!-- endbower -->
+	<!-- endbuild -->
+
+	<!-- build:js scripts/app.js  -->
+	<script src="scripts/app.js"></script>	
+	<script src="scripts/controllers/homeCtrl.js"></script>
+	<script src="scripts/controllers/weatherCtrl.js"></script>
+	<script src="scripts/controllers/mapCtrl.js"></script>
+	<script src="scripts/controllers/aboutCtrl.js"></script>
+
+	<!-- // <script src="scripts/controllers/contactCtrl.js"></script>  -->
+	<!-- // <script src="services/weather.js"></script>  -->
+	
+	<!-- endbuild -->
+
+	<!-- build:js scripts/plugins.js -->
+	<script src="bower_components/sass-bootstrap/js/affix.js"></script>
+	<script src="bower_components/sass-bootstrap/js/alert.js"></script>
+	<script src="bower_components/sass-bootstrap/js/dropdown.js"></script>
+	<script src="bower_components/sass-bootstrap/js/tooltip.js"></script>
+	<script src="bower_components/sass-bootstrap/js/modal.js"></script>
+	<script src="bower_components/sass-bootstrap/js/transition.js"></script>
+	<script src="bower_components/sass-bootstrap/js/button.js"></script>
+	<script src="bower_components/sass-bootstrap/js/popover.js"></script>
+	<script src="bower_components/sass-bootstrap/js/carousel.js"></script>
+	<script src="bower_components/sass-bootstrap/js/scrollspy.js"></script>
+	<script src="bower_components/sass-bootstrap/js/collapse.js"></script>
+	<script src="bower_components/sass-bootstrap/js/tab.js"></script>
+	<!-- endbuild -->
+</body>
+</html>
