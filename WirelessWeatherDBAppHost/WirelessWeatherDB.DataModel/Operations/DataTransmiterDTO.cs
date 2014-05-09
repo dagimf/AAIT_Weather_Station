@@ -16,7 +16,7 @@ namespace WirelessWeatherDB.DataModel.Operations
 
     public class DataTransmiterDTOResponse
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 
 
@@ -24,7 +24,7 @@ namespace WirelessWeatherDB.DataModel.Operations
     [Route("/GetTransmiter/{Id}")]
     public class TransmiterDevice
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 
     public class TransmiterDeviceResponse

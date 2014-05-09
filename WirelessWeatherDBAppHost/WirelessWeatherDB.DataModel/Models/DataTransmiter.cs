@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace WirelessWeatherDB.DataModel.Models
 {
     public class DataTransmiter
     {
-        public Guid Id { get; set; }
+        [AutoIncrement]
+        public int TransmiterId { get; set; }
         public string Location { get; set; }
         public string Name { get; set; }
     }

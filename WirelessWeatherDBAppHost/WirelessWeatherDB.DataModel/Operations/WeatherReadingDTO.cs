@@ -22,7 +22,7 @@ namespace WirelessWeatherDB.DataModel.Operations
 
     public class WeatherReadingDTOResponse
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 
 
@@ -30,11 +30,11 @@ namespace WirelessWeatherDB.DataModel.Operations
     /// The code below are used to retrevie current weather data from the DB 
     /// </summary>
 
-    [Api("Get weather information")]
+    [Api("Get weather information based on collectorID or location")]
     [Route("/ReadWeather")]
     public class Weather
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 
     public class WeatherResponse

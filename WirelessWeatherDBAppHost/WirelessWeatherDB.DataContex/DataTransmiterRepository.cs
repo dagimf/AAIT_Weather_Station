@@ -24,7 +24,6 @@ namespace WirelessWeatherDB.DataContex
         public DataTransmiterDTOResponse AddTransmiter(DataTransmiterDTO Transmiter)
         {
             DataTransmiter DataTransmiter = new DataTransmiter();
-            DataTransmiter.Id = Guid.NewGuid();
             DataTransmiter.Location = Transmiter.Location;
             DataTransmiter.Name = Transmiter.Name;
 
@@ -33,7 +32,7 @@ namespace WirelessWeatherDB.DataContex
             {
                 dbcon.Insert<DataTransmiter>(DataTransmiter);
             }
-            return new DataTransmiterDTOResponse { Id = DataTransmiter.Id };
+            return new DataTransmiterDTOResponse { Id = DataTransmiter.TransmiterId };
         }
 
         public TransmiterDeviceResponse GetTransmiter(TransmiterDevice TransmiterDetail)

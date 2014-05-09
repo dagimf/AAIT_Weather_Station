@@ -9,10 +9,10 @@ namespace WirelessWeatherDB.DataModel.Models
 {
     public class DataCollector
     {
-        public Guid Id { get; set; }
-
+        [AutoIncrement]
+        public int CollectorId { get; set; }
         [References(typeof(DataTransmiter))]
-        public Guid TransmitterId { get; set; }
+        public int TransmiterId { get; set; }
         public string Location { get; set; }
         public string Status { get; set; }
     }

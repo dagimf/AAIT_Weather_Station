@@ -24,9 +24,9 @@ namespace WirelessWeatherDB.DataContex
         public DataCollectorDTOResponse AddCollector(DataCollectorDTO Collector)
         {
             DataCollector DataCollector = new DataCollector();
-            DataCollector.Id = Collector.Id;
+            DataCollector.CollectorId = Collector.CollectorId;
             DataCollector.Location = Collector.Location;
-            DataCollector.TransmitterId= Collector.TransmitterId;
+            DataCollector.TransmiterId= Collector.TransmiterId;
             DataCollector.Status = Collector.Status;
 
 
@@ -34,7 +34,7 @@ namespace WirelessWeatherDB.DataContex
             {
                 dbCon.Insert<DataCollector>(DataCollector);
             }
-            return new DataCollectorDTOResponse { Id = DataCollector.Id };
+            return new DataCollectorDTOResponse { Id = DataCollector.CollectorId };
         }
 
         public CollectorDeviceResponse GetCollector(CollectorDevice CollectorDetail)

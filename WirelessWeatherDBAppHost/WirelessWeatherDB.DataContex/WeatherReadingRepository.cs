@@ -24,18 +24,17 @@ namespace WirelessWeatherDB.DataContex
         public WeatherReadingDTOResponse AddReading(WeatherReadingDTO Weather)
         {
             WeatherReading currentReading = new WeatherReading();
-            currentReading.ID = Guid.NewGuid();
             currentReading.CollectorId = Weather.CollectorId;
             currentReading.Light = Weather.Light;
             currentReading.Pressure = Weather.Pressure;
-            currentReading.Time = Weather.Time;
+            currentReading.Time = DateTime.UtcNow;
             currentReading.Temprature = Weather.Temprature;
 
             using (var dbCon = DbConnectionFactory.OpenDbConnection())
             {
                 dbCon.Insert<WeatherReading>(currentReading);
             }
-            return new WeatherReadingDTOResponse { Id=  currentReading.ID};
+            return new WeatherReadingDTOResponse { Id = currentReading.CollectorId };
 
         }
 
