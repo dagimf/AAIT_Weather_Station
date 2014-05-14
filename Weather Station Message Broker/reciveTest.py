@@ -28,7 +28,8 @@ queue_name = result.method.queue
 
 #obtaine the binding key(routing key) for the que from the system argument
 #it should be the Raspberry name. the arduino name
-binding_key = "Device."+sys.argv[1]
+
+binding_key = "Device.3.1"
 #check to see if binding key is provided with system argument
 #if not binding_keys:
  #   print >> sys.stderr, "Usage: %s [binding_key]..." % (sys.argv[0],)
@@ -48,6 +49,7 @@ def callback(ch, method, properties, body):
     print " [x] %r:%r" % (method.routing_key, body,)
     #send the command that was recived directky to the serial port
     ser.write(body+'\n')
+    print(body)
     #set the message recived status true    
     messageReceived = True
     #as long as there is a message to be recived do
@@ -61,7 +63,7 @@ def callback(ch, method, properties, body):
         ser.close()
         break 
       #set the routing key for sending message
-      routing_key = "Control."+sys.argv[1]
+      routing_key = "Control.3.1"
       #publish the message to topic_logs with the given routing key, and message read from the serial port
       channel.basic_publish(exchange='topic_logs',
                             routing_key=routing_key,

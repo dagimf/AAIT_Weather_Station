@@ -31,7 +31,7 @@ namespace WirelessWeatherDB.DataModel.Operations
     /// </summary>
 
     [Api("Get weather information based on collectorID or location")]
-    [Route("/ReadWeather")]
+    [Route("/ReadWeather/{Id}")]
     public class Weather
     {
         public int Id { get; set; }

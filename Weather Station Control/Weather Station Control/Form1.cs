@@ -30,14 +30,14 @@ namespace Weather_Station_Control
             automatedReceive.Start();
             msg.MessageChanged+=msg_MessageChanged;
 
-            messageBroker.sendData("1", "Device.Rasp1.Ardu1");
+            messageBroker.sendData("1", "Device.3.1");
         }
 
         private void readSensors()
         {
             while (true)
             {
-                messageBroker.sendData("5", "Device.Rasp1.Ardu1");
+                messageBroker.sendData("5", "Device.3.1");
                 Thread.Sleep(1000);
 
             }

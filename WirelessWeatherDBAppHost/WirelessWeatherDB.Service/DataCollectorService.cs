@@ -7,6 +7,7 @@ using WirelessWeatherDB.DataModel.Operations;
 using WirelessWeatherDB.DataInterface;
 using ServiceStack;
 using ServiceStack.ServiceInterface;
+using WirelessWeatherDB.DataModel.Models;
 
 
 namespace WirelessWeatherDB.Service
@@ -20,7 +21,8 @@ namespace WirelessWeatherDB.Service
             var Response = DataCollectorRepository.AddCollector(Request);
             return Response;
         }
-        public CollectorDeviceResponse Get(CollectorDevice Request)
+
+        public DataCollector Get(CollectorDevice Request)
         {
             var Response = DataCollectorRepository.GetCollector(Request);
             return Response;

@@ -12,6 +12,8 @@ using WirelessWeatherDB.DataContex;
 using WirelessWeatherDB.DataInterface;
 using WirelessWeatherDB.DataModel.Models;
 using WirelessWeatherDB.Service;
+using ServiceStack;
+using ServiceStack.ServiceInterface.Cors;
 
 namespace WirelessWeatherDBAppHost
 {
@@ -34,7 +36,7 @@ namespace WirelessWeatherDBAppHost
 
                 container.Register<IWeatherReadingRepository>(c => new WeatherReadingRepository(c.Resolve<IDbConnectionFactory>()));
                 container.Register<IDataTransmiterRepository>(c => new DataTransmiterRepository(c.Resolve<IDbConnectionFactory>()));
-                container.Register<IDataCollectorRepository>(c => new  DataCollectorRepository (c.Resolve<IDbConnectionFactory>()));
+                container.Register<IDataCollectorRepository>(c => new DataCollectorRepository(c.Resolve<IDbConnectionFactory>()));
 
             }
 
@@ -49,10 +51,10 @@ namespace WirelessWeatherDBAppHost
 
             using (var dbcon = connection.OpenDbConnection())
             {
-                dbcon.CreateTable<DataTransmiter>();               
+                dbcon.CreateTable<DataTransmiter>();
                 dbcon.CreateTable<DataCollector>();
                 dbcon.CreateTable<WeatherReading>();
-               
+
 
             }
 

@@ -9,7 +9,8 @@ namespace WirelessWeatherDB.DataModel.Models
 {
     public class WeatherReading
     {
-        //public Guid ID { get; set; }
+        [AutoIncrement]
+        public int ID { get; set; }
         public double Temprature { get; set; }
         public double Light { get; set; }
         public double Pressure { get; set; }

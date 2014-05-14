@@ -20,9 +20,11 @@ namespace AutomatedTransmiterRequest
 
         private static void readSensors()
         {
+
+            sendData("4", "Device.3.1");
             while (true)
             {
-                sendData("5", "Control.*.*");
+                sendData("5", "Device.3.1");
                 Thread.Sleep(1000);
 
             }

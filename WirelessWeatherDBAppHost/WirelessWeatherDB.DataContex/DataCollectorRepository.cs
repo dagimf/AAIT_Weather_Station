@@ -37,14 +37,14 @@ namespace WirelessWeatherDB.DataContex
             return new DataCollectorDTOResponse { Id = DataCollector.CollectorId };
         }
 
-        public CollectorDeviceResponse GetCollector(CollectorDevice CollectorDetail)
+        public DataCollector GetCollector(CollectorDevice CollectorDetail)
         {
             DataCollector Collector;
             using (var dbCon = DbConnectionFactory.OpenDbConnection())
             {
                 Collector = dbCon.QueryById<DataCollector>(CollectorDetail.Id);
             }
-            return new CollectorDeviceResponse { Device = Collector };
+            return Collector;
         }
     }
 }

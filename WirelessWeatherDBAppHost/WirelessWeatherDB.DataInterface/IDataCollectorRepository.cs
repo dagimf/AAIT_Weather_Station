@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WirelessWeatherDB.DataModel.Models;
 using WirelessWeatherDB.DataModel.Operations;
 
 namespace WirelessWeatherDB.DataInterface
@@ -10,6 +11,6 @@ namespace WirelessWeatherDB.DataInterface
     public interface IDataCollectorRepository
     {
         DataCollectorDTOResponse AddCollector(DataCollectorDTO Collector);
-        CollectorDeviceResponse GetCollector(CollectorDevice CollectorDetail);
+        DataCollector GetCollector(CollectorDevice CollectorDetail);
     }
 }

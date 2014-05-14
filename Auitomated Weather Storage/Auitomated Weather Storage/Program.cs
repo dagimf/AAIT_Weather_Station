@@ -34,12 +34,13 @@ namespace Aytomated_Weather_Storage
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
                         var routingKey = ea.RoutingKey;
-                        Console.WriteLine(" [x] Received '{0}':'{1}'",
+                        Console.WriteLine(" [x] Received {0} : {1}",
                                           routingKey, message);
 
                         storeReading(message, routingKey);
                         //storeTransmiter(message, routingKey);
                         //StoreCollector(message);
+                        //readTransimter(message);
                     }
 
                 }
@@ -49,7 +50,9 @@ namespace Aytomated_Weather_Storage
 
         public static string storeReading(string message, string routingKey)
         {
-            string[] parameters = message.Split(':');
+            message = message.Split('\r')[0];
+            string[] parametersnew = message.Split('|');
+            string[] parameters = parametersnew[1].Split(':');
             //must change this to get the id from the routing key
             Guid id = Guid.NewGuid();
             string cmd = parameters[1];
@@ -72,7 +75,7 @@ namespace Aytomated_Weather_Storage
                 {
                     lightValue = records[1];
                 }
-                else if (records[0].Contains("Pressure"))
+                else if (records[0].Contains("Presure"))
                 {
                     pressureValue = records[1];
                 }
@@ -116,7 +119,14 @@ namespace Aytomated_Weather_Storage
             var response = client.Send<DataTransmiter>(new DataCollectorDTO { TransmiterId=TransmiterId, Location=Location, Status=Status });
 
 
-            return "";
+            return response.TransmiterId.ToString();
+        }
+
+        public static DataTransmiter readTransimter(string message)
+        {
+            var client = new JsonServiceClient("http://localhost:57175/");
+            var response = client.Get<DataTransmiter>(message);
+            return response;
         }
 
     }
