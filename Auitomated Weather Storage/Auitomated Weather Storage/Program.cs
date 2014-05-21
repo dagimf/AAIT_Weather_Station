@@ -5,6 +5,7 @@ using System.Text;
 using ServiceStack.ServiceClient.Web;
 using WirelessWeatherDB.DataModel.Operations;
 using WirelessWeatherDB.DataModel.Models;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace Aytomated_Weather_Storage
 {
@@ -12,40 +13,44 @@ namespace Aytomated_Weather_Storage
     {
         public static void Main(string[] args)
         {
-            string bindingKey = "Control.*.*";
-            var factory = new ConnectionFactory() { HostName = "127.0.0.1" };
-            using (var connection = factory.CreateConnection())
-            {
-                using (var channel = connection.CreateModel())
-                {
-                    channel.ExchangeDeclare("topic_logs", "topic");
-                    var queueName = channel.QueueDeclare();
-                    channel.QueueBind(queueName, "topic_logs", bindingKey);
 
-                    Console.WriteLine(" [*] Waiting for messages. " +
-                                      "To exit press CTRL+C");
+            //string bindingKey = "Control.*.*";
+            //var factory = new ConnectionFactory() { HostName = "127.0.0.1" };
+            //using (var connection = factory.CreateConnection())
+            //{
+            //    using (var channel = connection.CreateModel())
+            //    {
+            //        channel.ExchangeDeclare("topic_logs", "topic");
+            //        var queueName = channel.QueueDeclare();
+            //        channel.QueueBind(queueName, "topic_logs", bindingKey);
 
-                    var consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume(queueName, true, consumer);
+            //        Console.WriteLine(" [*] Waiting for messages. " +
+            //                          "To exit press CTRL+C");
 
-                    while (true)
-                    {
-                        var ea = (BasicDeliverEventArgs)consumer.Queue.Dequeue();
-                        var body = ea.Body;
-                        var message = Encoding.UTF8.GetString(body);
-                        var routingKey = ea.RoutingKey;
-                        Console.WriteLine(" [x] Received {0} : {1}",
-                                          routingKey, message);
+            //        var consumer = new QueueingBasicConsumer(channel);
+            //        channel.BasicConsume(queueName, true, consumer);
 
-                        storeReading(message, routingKey);
-                        //storeTransmiter(message, routingKey);
-                        //StoreCollector(message);
-                        //readTransimter(message);
-                    }
+            //        while (true)
+            //        {
+            //            var ea = (BasicDeliverEventArgs)consumer.Queue.Dequeue();
+            //            var body = ea.Body;
+            //            var message = Encoding.UTF8.GetString(body);
+            //            var routingKey = ea.RoutingKey;
+            //            Console.WriteLine(" [x] Received {0} : {1}",
+            //                              routingKey, message);
 
-                }
+            //            storeReading(message, routingKey);
+            //            //storeTransmiter(message, routingKey);
+            //            //StoreCollector(message);
+            //            //readTransimter(message);
+            //        }
 
-            }
+            //    }
+
+            //}
+
+            updateData();
+
         }
 
         public static string storeReading(string message, string routingKey)
@@ -127,6 +132,17 @@ namespace Aytomated_Weather_Storage
             var client = new JsonServiceClient("http://localhost:57175/");
             var response = client.Get<DataTransmiter>(message);
             return response;
+        }
+
+        public static void updateData ()
+        {
+            var hubConnection = new HubConnection("http://localhost:57175/");
+            IHubProxy WeatherDataHubProxy = hubConnection.CreateHubProxy("WeatherDataHub");
+            WeatherDataHubProxy.On<WeatherReading>("UpdateStockPrice", WeatherReading => Console.WriteLine("Stock update for {0} new price", WeatherReading.Temprature));
+            hubConnection.Start().Wait();
+            WeatherReading weather = new WeatherReading(); 
+            WeatherDataHubProxy.Invoke("UpdateData", weather);
+
         }
 
     }
